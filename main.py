@@ -1,61 +1,86 @@
-cap_price = 3
-esp_price = 2.25
-lat_price = 2.5
-ice_price = 2.5
+cap_price = 3       #constant price
+esp_price = float(2.25)    #constant price
+lat_price = float(2.50)     #constant price
+ice_price = float(2.50)     #constant price
 no_take = 0
 no_dine = 0
 r_take = ''
 r_dine = ''
-total = 0
-total_G = 0
+total = float(0)           #Total price Ex. GST
+total_G = float(0)         #Total GST
 drinks = 0
-dlist = []
-qlist = []
-cap_quantity = 0
-esp_quantity = 0
-lat_quantity = 0
-ice_quantity = 0
+dlist = []          #list of drinks for (1)
+qlist = []          #list of drink quantities for (1)
+plist = []
+cap_quantity = 0    #quantity of each cap
+esp_quantity = 0    #quantity of each esp
+lat_quantity = 0    #quantity of each lat
+ice_quantity = 0    #quantity of each ice
+oper = ' '
 
-oper = input('operation: ')
-if oper == 'New order':
-    type = input('Dine in or take away: ')
-    if type == 'Take away':
-        no_take = no_take + 1
-        r_take = 'Take away'
-    elif type == 'Dine in':
-        no_dine = no_dine + 1
-        r_dine = 'Dine in'
-    else:
-        print('Error') #find way to restart
-    while drinks != '':
-        drinks = input('Enter drink type: ')
-        if drinks == 'Cappuccino':
-            cap_quantity = int(input('Enter quantity: '))
-            cap_order_price = cap_quantity*cap_price
-            qlist.append(cap_quantity)
-            dlist.append(drinks)
-        elif drinks == 'Espresso':
-            esp_quantity = int(input('Enter quantity: '))
-            esp_order_price = esp_quantity*esp_price
-            qlist.append(esp_quantity)
-            dlist.append(drinks)
-        elif drinks == 'Latte':
-            lat_quantity = int(input('Enter quantity: '))
-            lat_order_price = lat_quantity*lat_price
-            qlist.append(lat_quantity)
-            dlist.append(drinks)
-        elif drinks == 'Iced Coffee':
-            ice_quantity = int(input('Enter quantity: '))
-            ice_order_price = ice_quantity * lat_price
-            qlist.append(ice_quantity)
-            dlist.append(drinks)
-        elif drinks != '':
-            print('Error')
+while oper != '3':
+    oper = input('''operations: 
+New order (1) 
+Daily Summary (2) 
+End (3) 
+   
+Enter operation number: ''')
+    if oper == '1':
+        type = input('''Dining Options: 
+Dine-in (1) 
+Take-away (2) 
+
+Enter dining option: ''')
+        if type == '2':
+            no_take = no_take + 1
+            r_take = 'Take away'
+        elif type == '1':
+            no_dine = no_dine + 1
+            r_dine = 'Dine in'
         else:
-            num = 0
-            for seq in range(len(dlist)):
-                print(dlist[num] + '        ' + str(qlist[num]))
-                num = num + 1
-
+            print('Error')
+        while drinks != '':
+            drinks = input('Enter drink type: ')
+            if drinks == 'Cappuccino':
+                cap_quantity = int(input('Enter quantity: '))
+                cop = cap_quantity*cap_price        #cop = cappuccino order price
+                plist.append(cop)
+                qlist.append(cap_quantity)
+                dlist.append(drinks)
+                drinks = ' '
+            elif drinks == 'Espresso':
+                esp_quantity = int(input('Enter quantity: '))
+                eop = esp_quantity*esp_price        #eop = espresso order price
+                plist.append(eop)
+                qlist.append(esp_quantity)
+                dlist.append(drinks)
+                drinks = ' '
+            elif drinks == 'Latte':
+                lat_quantity = int(input('Enter quantity: '))
+                lop = lat_quantity*lat_price        #lop = latte order price
+                plist.append(lop)
+                qlist.append(lat_quantity)
+                dlist.append(drinks)
+                drinks = ' '
+            elif drinks == 'Iced Coffee':
+                ice_quantity = int(input('Enter quantity: '))
+                iop = ice_quantity*lat_price      #iop = iced coffee order price
+                plist.append(iop)
+                qlist.append(ice_quantity)
+                dlist.append(drinks)
+                drinks = ' '
+            elif drinks != '':
+                print('Error')
+            else:
+                num = 0
+                print('Order:')
+                for seq in range(len(dlist)):
+                    print(dlist[num] + '   ' + 'x' + str(qlist[num]) + '    ' + '$' + str(round(plist[num], 2)))  #print price (total for sum of drink quantity)
+                    total = total + plist[num]
+                    num = num + 1
+                print('Total Ex. GST:   $' + str(total))
+                total_G = total*0.1
+                print('Total GST:   $' + str(round(total_G, 2)))
+                print('Total icl. GST:  $' + str(round(total_G+total, 2)))              ##make receipt look nicer
 
 
