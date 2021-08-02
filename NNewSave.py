@@ -6,20 +6,10 @@ no_take = 0
 no_dine = 0
 r_take = ''
 r_dine = ''
-total = float(0)  # Total price Ex. GST
-total_GST = float(0)  # Total GST
-drinks = 0
-dlist = []  # list of drinks for (1)
-qlist = []  # list of drink quantities for (1)
-plist = []
-cap_quantity = 0  # quantity of each cap
-esp_quantity = 0  # quantity of each esp
-lat_quantity = 0  # quantity of each lat
-ice_quantity = 0  # quantity of each ice
 oper = ' '
-Ftotal = 0
-FFtotal = 0
-extra = 0
+Income = float(0)
+TGST = float(0)
+NoCups = 0
 
 while oper != '3':
     oper = input('''operations: 
@@ -42,6 +32,19 @@ Enter dining option: ''')
             r_dine = 'Dine in'
         else:
             print('Error')
+        dlist = []  # list of drinks for (1)
+        qlist = []  # list of drink quantities for (1)
+        plist = []
+        drinks = 0
+        cap_quantity = 0  # quantity of each cap
+        esp_quantity = 0  # quantity of each esp
+        lat_quantity = 0  # quantity of each lat
+        ice_quantity = 0  # quantity of each ice
+        Ftotal = 0
+        FFtotal = 0
+        extra = 0
+        total = float(0)  # Total price Ex. GST
+        total_GST = float(0)  # Total GST
         while drinks != '':
             drinks = input('Enter drink type: ')
             if drinks == 'Cappuccino':
@@ -117,3 +120,18 @@ Enter dining option: ''')
                 print(' ')
                 print(f'Amount tendered: ${str(tendered)}')
                 print(f'Change given: ${str(change)}')
+                print('''
+                ''')
+                Income = Income + ##############################################one of the totals
+                TGST = TGST + total_GST
+                for i in range(len(qlist)):
+                    Nocups = qlist[i] + Nocups
+    else:
+        Income =
+        Torders = no_take + no_dine
+            print(f'''Number of Dine-In orders: {no_dine}
+Number of Take-Away orders: {no_take}
+Total number of orders: {Torders}
+Total number of cups of coffee: {Nocups}
+Total income: {...}
+Total GST collected: {...}
