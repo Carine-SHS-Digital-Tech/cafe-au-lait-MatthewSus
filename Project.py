@@ -1,4 +1,8 @@
+#Imports
 import sys
+import csv
+import os
+
 cap_price = 3  # constant price
 esp_price = float(2.25)  # constant price
 lat_price = float(2.50)  # constant price
@@ -11,16 +15,16 @@ oper = ' '
 Income = float(0)
 TGST = float(0)
 NoCups = 0
+type = 0
 
 while oper != '3':
-    oper = input('''
-operations: 
+    oper = input('''operations: 
 New order (1) 
 Daily Summary (2) 
 End (3)
 Enter operation number: ''')
     if oper == '1':
-        while type = 0:
+        while type == 0:
             type = input('''
 Dining Options: 
 Dine-in (1) 
@@ -61,55 +65,55 @@ Enter drink type:''')
                 cop = cap_quantity * cap_price  # cop = cappuccino order price
                 plist.append(cop)
                 qlist.append(cap_quantity)
-                dlist.append('Cappuccino')
+                dlist.append('Cappuccino     ')
                 drinks = ' '
             elif drinks == '2':
                 esp_quantity = int(input('Enter quantity: '))
                 eop = esp_quantity * esp_price  # eop = espresso order price
                 plist.append(eop)
                 qlist.append(esp_quantity)
-                dlist.append('Espresso')
+                dlist.append('Espresso       ')
                 drinks = ' '
             elif drinks == '3':
                 lat_quantity = int(input('Enter quantity: '))
                 lop = lat_quantity * lat_price  # lop = latte order price
                 plist.append(lop)
                 qlist.append(lat_quantity)
-                dlist.append('Latte')
+                dlist.append('Latte          ')
                 drinks = ' '
             elif drinks == '4':
                 ice_quantity = int(input('Enter quantity: '))
                 iop = ice_quantity * lat_price  # iop = iced coffee order price
                 plist.append(iop)
                 qlist.append(ice_quantity)
-                dlist.append('Iced Coffee')
+                dlist.append('Iced Coffee    ')
                 drinks = ' '
             elif drinks != '':
                 print('Error')
 
             else:
-                print('------------Order------------')
+                print('----------------Order----------------')
                 num = 0
                 for seq in range(len(dlist)):
                     print(
-                        f'{dlist[num]}        x{str(qlist[num])}      ${str(round(plist[num], 2))}')  # print price (total for sum of drink quantity)
+                        f'{dlist[num]}     x{str(qlist[num])}       ${str(round(plist[num], 2))}')  # print price (total for sum of drink quantity)
                     total = total + plist[num]
                     num = num + 1
                 total_GST = float(total * 0.1)
                 total_GST = round(total_GST, 2)
                 Ftotal = total_GST + total
-                print(f'Total Ex. GST:   ${str(total)}')
-                print(f'Total GST:   ${str(total_GST)}')
+                print(f'Total Ex. GST:               ${str(total)}')
+                print(f'Total GST:                   ${str(total_GST)}')
                 if type == '2':
                     extra = float(Ftotal * 0.05)
                     extra = round(extra, 2)
-                    print(f'Extras:  ${extra}')
+                    print(f'Extras:                       ${extra}')
                 else:
                     extra = 0
-                    print('Extras: $0.00')
+                    print('Extras:                      $0.00')
                 FFtotal = float(Ftotal + extra)
                 FFtotal = round(FFtotal, 2)
-                print(f'Total icl. GST:  ${str(FFtotal)}')  ##make receipt look nicer
+                print(f'Total icl. GST:              ${str(FFtotal)}')  ##make receipt look nicer
                 print(' ')                                  ##change drinks to numbers
                 tendered = int(input('Amount tendered ($): '))  ##Daily summary
                 change = tendered - (Ftotal+extra)
@@ -120,41 +124,42 @@ Enter drink type:''')
                 num = 0
                 for seq in range(len(dlist)):
                     print(
-                        f'{dlist[num]}        x{str(qlist[num])}      ${str(round(plist[num], 2))}')
+                        f'{dlist[num]}      x{str(qlist[num])}      ${str(round(plist[num], 2))}')
                     num = num + 1
-                print(f'Total Ex. GST:   ${str(total)}')
-                print(f'Total GST:   ${str(round(total_GST, 2))}')
-                print(f'Extras:  ${extra}')
-                print(f'Total icl. GST:  ${str(FFtotal)}')
+                print(f'Total Ex. GST:               ${str(total)}')
+                print(f'Total GST:                   ${str(round(total_GST, 2))}')
+                print(f'Extras:                      ${extra}')
+                print(f'Total icl. GST:              ${str(FFtotal)}')
                 print(' ')
-                print(f'Amount tendered: ${str(tendered)}')
-                print(f'Change given: ${str(change)}')
+                print(f'Amount tendered:             ${str(tendered)}')
+                print(f'Change given:                ${str(change)}')
                 print('''
                 ''')
                 Income = Income + total + extra
                 TGST = TGST + total_GST
                 for i in range(len(qlist)):
                     NoCups = qlist[i] + NoCups
-    elif oper == 3:
-        sys.exit()
-    elif oper == 2:
+                type = 0
+    elif oper == '2':
         Torders = no_take + no_dine
-        print(f'''Number of Dine-In orders: {no_dine}
-Number of Take-Away orders: {no_take}
-Total number of orders: {Torders}
-Total number of cups of coffee: {NoCups}
-Total income:  ${Income}
-Total GST collected:  ${TGST}
+        TGST = round(TGST, 2)
+        print(f'''Number of Dine-In orders:              {no_dine}
+Number of Take-Away orders:            {no_take}
+Total number of orders:                {Torders}
+Total number of cups of coffee:        {NoCups}
+Total income:                         ${round(Income, 2)}
+Total GST collected:                  ${TGST}
 ''')
-
         data = [no_take, no_dine, Torders, NoCups, Income, TGST]
         headings = ['Take-Away', 'Dine-In', 'Total Orders', 'Number of Cups', 'Income', 'Total GST']
-
-        import csv
-
-        with open ('DailySummary.csv', 'w', encoding='UTF8', newline='') as Sum:
-            writer = csv.writer(Sum)
+        with open ('Dailyss.csv', 'w', encoding='UTF8', newline='') as Sum:
+            writer = csv.writer(Sum)                                #not working
             writer.writerow(headings)
             writer.writerow(data)
+        Sum.close()
+        os.system("start EXCEL.EXE Dailyss.csv")
+
+    elif oper == '3':
+        sys.exit()
     else:
         print('error')
