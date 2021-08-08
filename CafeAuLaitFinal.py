@@ -1,4 +1,4 @@
-#Imports
+# Imports
 import sys
 import csv
 import os
@@ -7,17 +7,17 @@ cap_price = 3  # constant price
 esp_price = float(2.25)  # constant price
 lat_price = float(2.50)  # constant price
 ice_price = float(2.50)  # constant price
-no_take = 0     #counts the amount of take away orders
-no_dine = 0     #counts the amount of dine in orders
+no_take = 0     # counts the amount of take away orders
+no_dine = 0     # counts the amount of dine in orders
 r_take = ''
 r_dine = ''
 oper = ' '
 Income = float(0)
-TGST = float(0)     #total GST
-NoCups = 0
-type = 0
+TGST = float(0)     # total GST
+NoCups = 0          # Number of cups sold
+type = 0            # dine in/take away
 
-while oper != '3':              #Operation slection
+while oper != '3':              # Operation selection
     oper = input('''operations: 
 New order (1) 
 Daily Summary (2) 
@@ -47,11 +47,11 @@ Enter dining option: ''')
         esp_quantity = 0  # quantity of each esp
         lat_quantity = 0  # quantity of each lat
         ice_quantity = 0  # quantity of each ice
-        Ftotal = 0          #total + GST
-        FFtotal = 0         #ftotal + extras (Grand total
+        Ftotal = 0          # total + GST
+        FFtotal = 0         # ftotal + extras (Grand total
         extra = 0
         total = float(0)  # Total price Ex. GST
-        total_GST = float(0)  # Total GST
+        total_GST = float(0)  # Total GST of an order
         while drinks != '':
             drinks = input('''
 Drinks: 
@@ -62,7 +62,7 @@ Iced Coffee (4)
 Complete (enter)
 Enter drink type: ''')
             if drinks == '1':
-                cap_quantity = int(input('Enter quantity: '))                   ##########letter, blank
+                cap_quantity = int(input('Enter quantity: '))
                 cop = cap_quantity * cap_price  # cop = cappuccino order price
                 plist.append(cop)
                 qlist.append(cap_quantity)
@@ -92,7 +92,7 @@ Enter drink type: ''')
             elif drinks != '':
                 print('Error')
 
-            else:           #Receipt
+            else:           # Receipt
                 print('----------------Order----------------')
                 num = 0
                 for seq in range(len(dlist)):
@@ -144,12 +144,12 @@ Enter drink type: ''')
                 print(f'Change given:                ${str(change)}')
                 print('''
                 ''')
-                Income = Income + total + extra
-                TGST = TGST + total_GST
-                for i in range(len(qlist)):
+                Income = Income + total + extra         # Adding total to total income
+                TGST = TGST + total_GST                 # Adding the GST to total income
+                for i in range(len(qlist)):             # Counts total quantity of cups
                     NoCups = qlist[i] + NoCups
-                type = 0
-    elif oper == '2':
+                type = 0                                # Resets dine-in/takeaway
+    elif oper == '2':                                   # Daily summary
         Torders = no_take + no_dine
         TGST = round(TGST, 2)
         print(f'''Number of Dine-In orders:              {no_dine}
@@ -159,16 +159,16 @@ Total number of cups of coffee:        {NoCups}
 Total income:                         ${round(Income, 2)}
 Total GST collected:                  ${TGST}
 ''')
-        data = [no_take, no_dine, Torders, NoCups, Income, TGST]
+        data = [no_take, no_dine, Torders, NoCups, Income, TGST]            # Used to save as a csv file and open ecxel
         headings = ['Take-Away', 'Dine-In', 'Total Orders', 'Number of Cups', 'Income', 'Total GST']
-        with open ('Dailyss.csv', 'w', encoding='UTF8', newline='') as Sum:
+        with open('Dailyss.csv', 'w', encoding='UTF8', newline='') as Sum:
             writer = csv.writer(Sum)
             writer.writerow(headings)
             writer.writerow(data)
         Sum.close()
         os.system("start EXCEL.EXE Dailyss.csv")
 
-    elif oper == '3':
+    elif oper == '3':       # end program
         sys.exit()
     else:
         print('error')
