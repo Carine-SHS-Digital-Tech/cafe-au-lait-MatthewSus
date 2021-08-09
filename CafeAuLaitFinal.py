@@ -1,9 +1,11 @@
 # Imports
+# Imports
+
 import sys
 import csv
 import os
 
-cap_price = 3  # constant price
+cap_price = float(3.00)  # constant price
 esp_price = float(2.25)  # constant price
 lat_price = float(2.50)  # constant price
 ice_price = float(2.50)  # constant price
@@ -97,35 +99,32 @@ Enter drink type: ''')
                 num = 0
                 for seq in range(len(dlist)):
                     print(
-                        f'{dlist[num]}     x{str(qlist[num])}       ${str(round(plist[num], 2))}')
+                        f'{dlist[num]}     x{str(qlist[num])}       ${round(plist[num], 2)}')
                     total = total + plist[num]
                     num = num + 1
+
                 total_GST = float(total * 0.1)
-                total_GST = round(total_GST, 2)
                 Ftotal = total_GST + total
-                print(f'Total Ex. GST:               ${str(total)}')
-                print(f'Total GST:                   ${str(total_GST)}')
+                print(f'Total Ex. GST:               ${"{:.2f}".format(total)}')
+                print(f'Total GST:                   ${"{:.2f}".format(total_GST)}')
                 if type == '2':
                     extra = float(Ftotal * 0.05)
-                    extra = round(extra, 2)
-                    print(f'Extras:                       ${extra}')
+                    print(f'Extras:                     ${"{:.2f}".format(extra)}')
                 else:
                     extra = 0
-                    print('Extras:                      $0.00')
+                    print('Extras:                     $0.00')
                 FFtotal = float(Ftotal + extra)
-                FFtotal = round(FFtotal, 2)
-                print(f'Total icl. GST:              ${str(FFtotal)}')
+                print(f'Total icl. GST:              ${str("{:.2f}".format(FFtotal))}')
                 print(' ')
                 tendered = 0
                 while tendered < FFtotal:
-                    tendered = (input('Amount tendered ($): '))
+                    tendered = input('Amount tendered ($): ')
                     tendered = float(tendered)
                     if tendered < FFtotal:
                         print('More payment required')
-                        print(f'Funds remaining: ${FFtotal-tendered}')
+                        print(f'Funds remaining: ${str("{:.2f}".format(FFtotal-tendered))}')
                     elif tendered >= FFtotal:
                         change = tendered - (Ftotal + extra)
-                        change = round(change, 2)
                     else:
                         print('error')
                 print('')
@@ -135,13 +134,13 @@ Enter drink type: ''')
                     print(
                         f'{dlist[num]}      x{str(qlist[num])}      ${str(round(plist[num], 2))}')
                     num = num + 1
-                print(f'Total Ex. GST:               ${str(total)}')
-                print(f'Total GST:                   ${str(round(total_GST, 2))}')
-                print(f'Extras:                      ${extra}')
-                print(f'Total icl. GST:              ${str(FFtotal)}')
+                print(f'Total Ex. GST:               ${"{:.2f}".format(total)}')
+                print(f'Total GST:                   ${"{:.2f}".format(total_GST)}')
+                print(f'Extras:                      ${"{:.2f}".format(extra)}')
+                print(f'Total icl. GST:              ${"{:.2f}".format(FFtotal)}')
                 print(' ')
-                print(f'Amount tendered:             ${str(tendered)}')
-                print(f'Change given:                ${str(change)}')
+                print(f'Amount tendered:             ${"{:.2f}".format(tendered)}')
+                print(f'Change given:                ${"{:.2f}".format(change)}')
                 print('''
                 ''')
                 Income = Income + total + extra         # Adding total to total income
@@ -156,8 +155,8 @@ Enter drink type: ''')
 Number of Take-Away orders:            {no_take}
 Total number of orders:                {Torders}
 Total number of cups of coffee:        {NoCups}
-Total income:                         ${round(Income, 2)}
-Total GST collected:                  ${TGST}
+Total income:                         ${"{:,.2f}".format(Income)}
+Total GST collected:                  ${"{:,.2f}".format(TGST)}
 ''')
         data = [no_take, no_dine, Torders, NoCups, Income, TGST]            # Used to save as a csv file and open ecxel
         headings = ['Take-Away', 'Dine-In', 'Total Orders', 'Number of Cups', 'Income', 'Total GST']
